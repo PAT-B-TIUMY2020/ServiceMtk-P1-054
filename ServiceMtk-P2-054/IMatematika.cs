@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
+using static ServiceMtk_P2_054.MathFault;
 
 namespace ServiceMtk_P2_054
 {
@@ -11,18 +12,30 @@ namespace ServiceMtk_P2_054
     public interface IMatematika
     {
         [OperationContract]
+        [FaultContract(typeof(MathFault))] //Membuat kelas yang melambangkan exception
         /* output->*/
         int Tambah(int a, int b); //method
         [OperationContract]
+        [FaultContract(typeof(MathFault))] //Membuat kelas yang melambangkan exception
         int Kurang(int a, int b); //input
         [OperationContract]
+        [FaultContract(typeof(MathFault))] //Membuat kelas yang melambangkan exception
         int Kali(int a, int b);
         [OperationContract]
+        [FaultContract(typeof(MathFault))] //Membuat kelas yang melambangkan exception
         int Bagi(int a, int b);
         [OperationContract]
+        [FaultContract(typeof(MathFault))] //Membuat kelas yang melambangkan exception
         Koordinat TKoordinat(Koordinat a, Koordinat b); //object dari class
     }
     [DataContract]
+    class MathFault
+    {
+        [DataMember]
+        public string Kode { get; set; }
+        [DataMember]
+        public string Pesan { get; set; }
+    }
     public class Koordinat
     {
         private int _x, _y; //atribut
@@ -32,8 +45,7 @@ namespace ServiceMtk_P2_054
             get { return _x; }
             set { _x = value; }
         }
-        [
-      DataMember]
+        [DataMember]
         public int Y //properties
         {
             get { return _y; }
